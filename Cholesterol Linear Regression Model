@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+from matplotlib import pylab
+from sklearn.linear_model import LinearRegression
+
+
+
+def read_csv(filename):
+    with open(filename,'r') as f:
+        lines = f.readlines()
+    header = lines[0].strip().split(',')
+    data = [ line.strip().split(',') for line in lines[1:] ] #ignores the first row to collect the data
+    data = np.array(data).astype('float')
+    return header,data
+
+filename_one = "file name" #insert file name
+header,data = read_csv(filename_one)
+examples,labels = data[:,:-1],data[:,-1] # grabs the designated data from each column as a example or label
+
+print("=== header")
+print(header)
+print("=== first 10 examples")
+print(examples[:10])
+print("=== first 10 labels")
+print(labels[:10])
+
+lr = LinearRegression()
+lr.fit(examples,labels)
+
+a= lr.coef_[0]
+b = lr.intercept_
+print("\n"+"Data set 1:")
+print(a) #data set 1
+print(b) #data set 1
+
+
+
+df = pd.read_csv("file name") #insert file name
+df2 = pd.read_csv(filename_one)
+
+people_in_20s = df[(df['age'] >= 20) & (df['age'] <= 29)]
+people_in_30s = df[(df['age'] >= 30) & (df['age'] <= 39)]
+people_in_40s = df[(df['age'] >= 40) & (df['age'] <= 49)]
+people_in_50s = df[(df['age'] >= 50) & (df['age'] <= 59)]
+people_in_60s = df[(df['age'] >= 60) & (df['age'] <= 69)]
+people_in_70s = df[(df['age'] >= 70) & (df['age'] <= 79)]
+
+def lrAge(model):    
+    header,data = df['exercise'],df['cholesterol']
+    
+    lr = LinearRegression()
+  
+    examples = model[['exercise']].values  # Extract exercise as features
+    labels = model['cholesterol'].values  # Extract cholesterol as labels
+    lr.fit(examples,labels)
+    a= lr.coef_[0]
+    b = lr.intercept_
+    
+   
+    print(a) #data set 1
+    print(b) #data set 1
+    print("\n")
+
+
+print("\n")
+print(f"People in their 20s")
+lrAge(people_in_20s)
+print(f"People in their 30s")
+lrAge(people_in_30s)
+print(f"People in their 40s")
+lrAge(people_in_40s)
+print(f"People in their 50s")
+lrAge(people_in_50s)
+print(f"People in their 60s")
+lrAge(people_in_60s)
+print(f"People in their 70s")
+lrAge(people_in_70s)
